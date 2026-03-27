@@ -1,1 +1,1 @@
-export const DB_NAME = "secure-auth"
+export const DB_NAME = "alumni_db"

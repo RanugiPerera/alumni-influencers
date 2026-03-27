@@ -1,32 +1,69 @@
-import mongoose from "mongoose";
+import { DataTypes } from "sequelize";
+import { sequelize } from "../config/database.js";
 import bcrypt from "bcrypt";
 
-const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, lowercase: true },
-  email: { type: String, required: true, lowercase: true, unique: true },
-  password: { type: String, required: true },
-
-  role: {
-    type: String,
-    enum: ["student", "faculty", "admin"],
-    default: "student"
-  },
-
-  isEmailVerified: {
-    type: Boolean,
-    default: false
-  },
-
-  emailVerificationToken: String
+const User = sequelize.define("User", {
+    username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        set(val) {
+            this.setDataValue('username', val.toLowerCase());
+        }
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: { isEmail: true },
+        set(val) {
+            this.setDataValue('email', val.toLowerCase());
+        }
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    role: {
+        type: DataTypes.ENUM("student", "faculty", "admin"),
+        defaultValue: "student"
+    },
+    isEmailVerified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+    emailVerificationToken: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    emailVerificationTokenExpires: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
+    resetPasswordToken: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    resetPasswordExpires: {
+        type: DataTypes.DATE,
+        allowNull: true
+    }
+}, {
+    indexes: [
+        { fields: ['emailVerificationToken'] },
+        { fields: ['resetPasswordToken'] },
+        { fields: ['email'] }
+    ],
+    hooks: {
+        beforeSave: async (user) => {
+            if (user.changed('password')) {
+                user.password = await bcrypt.hash(user.password, 10);
+            }
+        }
+    }
 });
 
-userSchema.pre("save", async function () {
-  if (!this.isModified("password")) return;
-  this.password = await bcrypt.hash(this.password, 10);
-});
-
-userSchema.methods.comparePassword = function (password) {
-  return bcrypt.compare(password, this.password);
+User.prototype.comparePassword = function (password) {
+    return bcrypt.compare(password, this.password);
 };
 
-export const User = mongoose.model("User", userSchema);
+export { User };

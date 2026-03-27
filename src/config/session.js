@@ -1,20 +1,19 @@
 import session from "express-session";
-import MongoStore from "connect-mongo";
+import connectSessionSequelize from "connect-session-sequelize";
+import { sequelize } from "./database.js";
 
-if (!process.env.MONGO_URI) {
-  throw new Error("❌ MONGO_URI is undefined. Check .env loading.");
-}
+const SequelizeStore = connectSessionSequelize(session.Store);
 
 export const sessionConfig = session({
-  name: "sid",
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI
-  }),
-  cookie: {
-    httpOnly: true,
-    maxAge: 60 * 60 * 1000
-  }
+    name: "sid",
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: new SequelizeStore({
+        db: sequelize,
+    }),
+    cookie: {
+        httpOnly: true,
+        maxAge: 60 * 60 * 1000
+    }
 });
