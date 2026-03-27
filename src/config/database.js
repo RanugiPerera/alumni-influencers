@@ -1,17 +1,27 @@
-import mongoose from "mongoose";
+import { Sequelize } from "sequelize";
 
-// async await : when one task finishes only then will the next task start
+const sequelize = new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASS,
+    {
+        host: process.env.DB_HOST,
+        dialect: "mysql",
+        logging: false,
+    }
+);
+
 const connectDB = async () => {
     try {
-        const connectionInstance = await mongoose.connect
-        (`${process.env.MONGO_URI}`)
-        console.log(`\n MongoDB connected !!! 
-            ${connectionInstance.connection.host}`);
+        await sequelize.authenticate();
+        console.log('\n MySQL connected via Sequelize !!!');
+        // Sync models with database
+        await sequelize.sync({ alter: true });
     } catch (error) {
-       console.log("MongoDB connection failed", error)
-       process.exit(1) 
+        console.error("MySQL connection failed", error);
+        process.exit(1);
     }
+};
 
-}
-
+export { sequelize };
 export default connectDB;
