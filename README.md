@@ -24,17 +24,3 @@ The repository includes code primarily in the following languages:
    git clone https://github.com/RanugiPerera/alumni-influencers.git
    cd alumni-influencers
    ```
-2. **Install dependencies:**
-   - (Instructions for any Python, JavaScript, or other dependencies here)
-3. **Configure environment:**
-   - Edit configuration files as needed (see `config/` directory).
-4. **Run the project:**
-   - Launch backend and frontend servers as required.
-
-## Contributing
-
-Contributions are welcome! Please open issues or pull requests for suggestions and improvements.
-
-## License
-
-[MIT License](LICENSE)
