@@ -1,0 +1,9 @@
+_format_version: "3.0"
+services:
+  - name: secure-auth-backend
+    url: http://host.docker.internal:8000  # Points to the Node.js Express server running on standard 8000 port
+    routes:
+      - name: main-api-route
+        paths:
+          - /api
+        strip_path: false
