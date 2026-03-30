@@ -1,0 +1,245 @@
+{
+  "info": {
+    "name": "Secure Auth API",
+    "description": "API collection for Secure Auth requests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"testuser@example.com\",\n  \"password\": \"SecurePass123!\"\n}",
+              "options": {
+                "raw": { "language": "json" }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/register",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "auth", "register" ]
+            }
+          }
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/verify-email/:token",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "auth", "verify-email", ":token" ],
+              "variable": [
+                { "key": "token", "value": "replace-with-token" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"testuser@example.com\",\n  \"password\": \"SecurePass123!\"\n}",
+              "options": {
+                "raw": { "language": "json" }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "auth", "login" ]
+            }
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"testuser@example.com\"\n}",
+              "options": {
+                "raw": { "language": "json" }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/forgot-password",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "auth", "forgot-password" ]
+            }
+          }
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"NewSecurePass123!\"\n}",
+              "options": {
+                "raw": { "language": "json" }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/reset-password/:token",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "auth", "reset-password", ":token" ],
+              "variable": [
+                { "key": "token", "value": "replace-with-token" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/logout",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "auth", "logout" ]
+            }
+          }
+        },
+        {
+          "name": "Get Auth Profile (Test)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/profile",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "auth", "profile" ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/profile",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "profile" ]
+            }
+          }
+        },
+        {
+          "name": "Create / Update Profile",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "linkedInUrl",
+                  "value": "https://linkedin.com/in/testuser",
+                  "type": "text"
+                },
+                {
+                  "key": "professionalCourses",
+                  "value": "[\"Course 1\", \"Course 2\"]",
+                  "type": "text"
+                },
+                {
+                  "key": "licenses",
+                  "value": "[\"License A\"]",
+                  "type": "text"
+                },
+                {
+                  "key": "certifications",
+                  "value": "[\"Cert 1\"]",
+                  "type": "text"
+                },
+                {
+                  "key": "profileImage",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/profile",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "profile" ]
+            }
+          }
+        },
+        {
+          "name": "Delete Profile",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/profile",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "profile" ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bids",
+      "item": [
+        {
+          "name": "Get Bid Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/bids/status",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "bids", "status" ]
+            }
+          }
+        },
+        {
+          "name": "Place Bid",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 150.50\n}",
+              "options": {
+                "raw": { "language": "json" }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/bids",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "bids" ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000"
+    }
+  ]
+}
