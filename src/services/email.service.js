@@ -12,7 +12,7 @@ export const sendVerificationEmail = async (email, token) => {
   await transporter.sendMail({
     to: email,
     subject: "Verify your email",
-    html: `<a href="http://localhost:3000/api/auth/verify-email/${token}">
+    html: `<a href="http://localhost:8000/api/auth/verify-email/${token}">
              Verify Email
            </a>`
   });
