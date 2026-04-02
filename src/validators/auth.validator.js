@@ -2,9 +2,11 @@ import { body } from "express-validator";
 
 export const registerValidation = [
  body("username")
+  .notEmpty()
+  .withMessage("Username is required")
   .trim()
-  .escape()
-  .withMessage("Username provided is invalid"),
+  .escape(),
+
  body("email")
   .isEmail()
   .withMessage("Invalid email format")

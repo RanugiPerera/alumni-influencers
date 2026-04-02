@@ -8,9 +8,15 @@ import { fileURLToPath } from "url";
 import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./swagger/swagger-config.js";
+
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+
 
 const app = express();
 
@@ -28,6 +34,10 @@ const authLimiter = rateLimit({
 
 app.use(express.json());
 app.use(sessionConfig);
+
+// Swagger UI setup
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 
 // Serve uploads statically
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
