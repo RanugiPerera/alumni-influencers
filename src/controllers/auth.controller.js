@@ -58,7 +58,7 @@ export const verifyEmail = async (req, res) => {
 
   if (!user) {
     return res.status(400).json({
-      message: "Invalid or expired verification link"
+      message: "Invalid or expired verification link. NOTE: If you already clicked the link in your email, your account is already verified and this link is no longer valid."
     });
   }
 

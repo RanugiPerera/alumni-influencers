@@ -1,6 +1,7 @@
 import { Bid } from "../models/bid.model.js";
 import { Profile } from "../models/profile.model.js";
 import { Op } from "sequelize";
+import { calculateTotalSponsorship } from "../services/sponsorship.service.js";
 
 export const placeBid = async (req, res) => {
     try {
@@ -36,35 +37,49 @@ export const placeBid = async (req, res) => {
             return res.status(403).json({ message: `Monthly limit reached. You can only win ${maxWins} times per month.` });
         }
 
-        // 2. Fetch the highest bid for tomorrow
+        // 2. Fetch total sponsorship budget
+        const totalSponsorship = calculateTotalSponsorship(profile);
+        
+        if (amount > totalSponsorship) {
+            return res.status(400).json({ 
+                message: "Insufficient sponsorship funds.", 
+                availableFunds: totalSponsorship,
+                requiredFunds: amount,
+                tip: "Add more certifications or licenses to your profile to increase your sponsor backing!"
+            });
+        }
+
+        // 3. Fetch the highest bid for tomorrow
         const highestBid = await Bid.findOne({
             where: { bidDate },
             order: [['amount', 'DESC']]
         });
 
-        // 3. Prevent lower or equal bids without revealing the max.
+        // 4. Prevent lower or equal bids without revealing the max.
         if (highestBid && amount <= highestBid.amount) {
             return res.status(400).json({ message: "Your bid is too low. You must bid higher to win." });
         }
 
-        // 4. Update the prior highest bidder's status to losing
+        // 5. Update the prior highest bidder's status to losing
         if (highestBid) {
             highestBid.status = "losing";
             await highestBid.save();
             // TODO: In a full system, you would send an email notification off a queue here alerting highestBid.userId
         }
 
-        // 5. Create new winning bid
+        // 6. Create new winning bid
         const newBid = await Bid.create({
             userId,
             amount,
             bidDate,
+            totalSponsorship,
             status: "winning"
         });
 
         res.status(201).json({ 
             message: "Bid placed successfully", 
-            bidStatus: newBid.status 
+            bidStatus: newBid.status,
+            potentialPocketAmount: totalSponsorship - amount
         });
 
     } catch (error) {

@@ -3,6 +3,7 @@ import { sessionConfig } from "./config/session.js";
 import authRoutes from "./routes/auth.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
 import bidRoutes from "./routes/bid.routes.js";
+import publicRoutes from "./routes/public.routes.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import helmet from "helmet";
@@ -45,5 +46,6 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use("/api/auth", authLimiter, authRoutes); 
 app.use("/api/profile", profileRoutes);
 app.use("/api/bids", bidRoutes);
+app.use("/api/public", publicRoutes);
 
 export default app;

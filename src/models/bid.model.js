@@ -22,6 +22,14 @@ const Bid = sequelize.define("Bid", {
     bidDate: {
         type: DataTypes.DATEONLY, // Target date the bid is placed for (i.e. 'tomorrow')
         allowNull: false
+    },
+    totalSponsorship: {
+        type: DataTypes.FLOAT, // Total sponsor budget available at time of bid
+        defaultValue: 0
+    },
+    pocketedAmount: {
+        type: DataTypes.FLOAT, // Difference between sponsorship and winning bid
+        defaultValue: 0
     }
 }, {
     indexes: [

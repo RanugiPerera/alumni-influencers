@@ -20,8 +20,9 @@ export const startCronJobs = () => {
             });
 
             if (winningBid) {
-                // 2. Mark bid as 'won'
+                // 2. Mark bid as 'won' and calculate earnings
                 winningBid.status = "won";
+                winningBid.pocketedAmount = Math.max(0, winningBid.totalSponsorship - winningBid.amount);
                 await winningBid.save();
 
                 // 3. Mark all other bids for this date as 'losing'
