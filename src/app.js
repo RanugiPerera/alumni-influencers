@@ -19,11 +19,15 @@ const __dirname = path.dirname(__filename);
 
 
 
+import { trackUsage } from "./middlewares/usageTracker.middleware.js";
+
 const app = express();
 
-app.use(helmet()); // Security headers
+app.use(trackUsage); // Global usage tracking
+app.use(helmet()); 
+
 app.use(cors({
-  origin: "http://localhost:3000", // Allow frontend origins
+  origin: ["http://localhost:3000", "http://localhost:5173"], // Allow frontend origins
   credentials: true 
 }));
 
@@ -43,9 +47,13 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Serve uploads statically
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
+import analyticsRoutes from "./routes/analytics.routes.js";
+
 app.use("/api/auth", authLimiter, authRoutes); 
 app.use("/api/profile", profileRoutes);
 app.use("/api/bids", bidRoutes);
 app.use("/api/public", publicRoutes);
+app.use("/api/analytics", analyticsRoutes);
+
 
 export default app;

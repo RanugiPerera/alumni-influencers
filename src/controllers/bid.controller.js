@@ -31,7 +31,7 @@ export const placeBid = async (req, res) => {
             return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
         }).length;
 
-        const maxWins = profile.eventsAttended > 0 ? 4 : 3;
+        const maxWins = 3; 
         
         if (winsThisMonth >= maxWins) {
             return res.status(403).json({ message: `Monthly limit reached. You can only win ${maxWins} times per month.` });
@@ -49,25 +49,58 @@ export const placeBid = async (req, res) => {
             });
         }
 
-        // 3. Fetch the highest bid for tomorrow
+        // 3. Check if user already has a bid for this date
+        const existingUserBid = await Bid.findOne({
+            where: { userId, bidDate }
+        });
+
+        if (existingUserBid) {
+            if (amount <= existingUserBid.amount) {
+                return res.status(400).json({ message: "You can only update your bid to a higher amount." });
+            }
+        }
+
+        // 4. Fetch the highest bid for tomorrow (from anyone)
         const highestBid = await Bid.findOne({
-            where: { bidDate },
+            where: { 
+                bidDate,
+                userId: { [Op.ne]: userId } // Highest bid from others
+            },
             order: [['amount', 'DESC']]
         });
 
-        // 4. Prevent lower or equal bids without revealing the max.
+        // 5. Prevent lower or equal bids than the CURRENT highest.
         if (highestBid && amount <= highestBid.amount) {
-            return res.status(400).json({ message: "Your bid is too low. You must bid higher to win." });
+            return res.status(400).json({ message: "Your bid is too low. You must bid higher than the current highest bid to win." });
         }
 
-        // 5. Update the prior highest bidder's status to losing
-        if (highestBid) {
+        // 6. Update or create the bid
+        if (existingUserBid) {
+            existingUserBid.amount = amount;
+            existingUserBid.status = "winning";
+            existingUserBid.totalSponsorship = totalSponsorship;
+            await existingUserBid.save();
+            
+            // Mark the other "highest" bidder as losing if we just overtook them
+            if (highestBid && highestBid.status === "winning") {
+                highestBid.status = "losing";
+                await highestBid.save();
+            }
+
+            return res.json({ 
+                message: "Bid updated successfully", 
+                bidStatus: existingUserBid.status,
+                potentialPocketAmount: totalSponsorship - amount
+            });
+        }
+
+        // Mark the prior highest bidder's status to losing
+        if (highestBid && highestBid.status === "winning") {
             highestBid.status = "losing";
             await highestBid.save();
-            // TODO: In a full system, you would send an email notification off a queue here alerting highestBid.userId
         }
 
-        // 6. Create new winning bid
+        // 7. Create new winning bid
         const newBid = await Bid.create({
             userId,
             amount,
@@ -81,6 +114,7 @@ export const placeBid = async (req, res) => {
             bidStatus: newBid.status,
             potentialPocketAmount: totalSponsorship - amount
         });
+
 
     } catch (error) {
         res.status(500).json({ message: "Bid placement failed", error: error.message });

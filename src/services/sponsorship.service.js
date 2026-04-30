@@ -1,7 +1,3 @@
-/**
- * Mock sponsorship value mapping for common certifications/licenses.
- * In a real-world scenario, this might come from a database of current sponsor offers.
- */
 const SPONSOR_VALUE_MAP = {
     // Certifications
     "AWS Certified Solutions Architect": 500,

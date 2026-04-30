@@ -42,6 +42,22 @@ const Profile = sequelize.define("Profile", {
     eventsAttended: {
         type: DataTypes.INTEGER,
         defaultValue: 0
+    },
+    programme: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    graduationYear: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
+    industrySector: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    currentRole: {
+        type: DataTypes.STRING,
+        allowNull: true
     }
 });
 

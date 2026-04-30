@@ -3,9 +3,9 @@ import { Bid } from "../models/bid.model.js";
 import { Profile } from "../models/profile.model.js";
 
 export const startCronJobs = () => {
-    // Run every day at 6:00 PM (18:00)
-    cron.schedule("0 18 * * *", async () => {
-        console.log("Running Daily Winner Selection - 6:00 PM");
+    // Run every day at 12:00 AM (00:00)
+    cron.schedule("0 0 * * *", async () => {
+        console.log("Running Daily Winner Selection - 12:00 AM");
         
         try {
             // Target date is "tomorrow"

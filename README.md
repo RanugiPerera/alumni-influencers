@@ -20,6 +20,7 @@ The repository includes code primarily in the following languages:
 ## Getting Started
 
 1. **Clone the repository:**
+
    ```sh
    git clone https://github.com/RanugiPerera/alumni-influencers.git
    cd alumni-influencers
