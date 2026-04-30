@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Secure Auth API",
-    "description": "API collection for Secure Auth requests",
+    "description": "API collection for Secure Auth requests, including the newly added Public and Analytics endpoints.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -230,6 +230,136 @@
               "raw": "{{base_url}}/api/bids",
               "host": [ "{{base_url}}" ],
               "path": [ "api", "bids" ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Public",
+      "item": [
+        {
+          "name": "Get Alumni of the Day",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/public/alumni-of-the-day",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "public", "alumni-of-the-day" ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "item": [
+        {
+          "name": "Seed Analytics Data",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analytics/seed",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "analytics", "seed" ]
+            }
+          }
+        },
+        {
+          "name": "Get Skills Gap Data",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analytics/skills-gap",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "analytics", "skills-gap" ]
+            }
+          }
+        },
+        {
+          "name": "Get Employment Trends",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analytics/employment-trends",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "analytics", "employment-trends" ]
+            }
+          }
+        },
+        {
+          "name": "Get Graduation Metrics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analytics/graduation-metrics",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "analytics", "graduation-metrics" ]
+            }
+          }
+        },
+        {
+          "name": "Get Bidding Trends",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analytics/bidding-trends",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "analytics", "bidding-trends" ]
+            }
+          }
+        },
+        {
+          "name": "Get Career Pathways",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analytics/career-pathways",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "analytics", "career-pathways" ]
+            }
+          }
+        },
+        {
+          "name": "Get Usage Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analytics/usage-stats",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "analytics", "usage-stats" ]
+            }
+          }
+        },
+        {
+          "name": "Get Dashboard Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analytics/dashboard-summary",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "analytics", "dashboard-summary" ]
+            }
+          }
+        },
+        {
+          "name": "Get Alumni List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analytics/alumni",
+              "host": [ "{{base_url}}" ],
+              "path": [ "api", "analytics", "alumni" ]
             }
           }
         }
