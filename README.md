@@ -9,14 +9,6 @@ Alumni Influencers is a platform designed to help universities and colleges iden
 - Analytics dashboard for tracking alumni impact
 - Secure authentication and authorization system
 
-## Technology Stack
-
-The repository includes code primarily in the following languages:
-
-- Python
-- JavaScript
-- HTML/CSS
-
 ## Getting Started
 
 1. **Clone the repository:**
